@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "DotnetT4": {
+      "commandName": "Project"
+    }
+  }
+}

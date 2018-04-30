@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CommandLine;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System;
 
 namespace DotnetT4
 {
@@ -6,7 +9,19 @@ namespace DotnetT4
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            CommandLine.Parser.Default.ParseArguments<Options>(args)
+               .WithParsed<Options>(opts => RunOptions(opts));
+        }
+
+        static void RunOptions(Options options)
+        {
+            using (Image<Rgba32> image = Image.Load(options.ImageFile))
+            {
+                RuntimeTextTemplate1 t = new RuntimeTextTemplate1(image);
+                string text = t.TransformText();
+                System.IO.File.WriteAllText(options.OutputFile, text);
+                Console.WriteLine(text);
+            }
         }
     }
 }
